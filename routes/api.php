@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DestinationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(DestinationController::class)->group(function() {
+    Route::post('/destinations', 'createDestination');
+    Route::get('/destinations', 'getAll');
+    Route::get('/destinations/{id}', 'getOne');
+    Route::delete('/destinations/{id}', 'deleteDestination');
+    Route::put('/destinations/{id}', 'updateDestination');
 });
