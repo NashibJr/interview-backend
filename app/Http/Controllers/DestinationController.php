@@ -10,16 +10,25 @@ class DestinationController extends Controller
 {
     public function createDestination(Request $request) {
         $data = $request->validate([
-            'place' => 'min:3',
+            'place' => 'min:3|nullable',
             'distance' => 'max:500|required',
             'price' => 'numeric',
             'duration' => 'nullable',
             'image' => 'nullable|unique:destinations',
             'description' => 'max:500'
         ]);
-        $destination = Destinations::create($data);
+        $imageName = rand().'.'.$request->image;
+        // $request->image->move(public_path('images'), $imageName);
+        $destination = Destinations::create([
+            'place' => $request->place,
+            'distance' => $request->distance,
+            'price' => $request->price,
+            'duration' => $request->duration,
+            'image' => $imageName,
+            'description' => $request->description,
+        ]);
 
-        return response()->json(['message' => 'Successfully created','data' => $destination]);
+        return response()->json(['message' => 'Successfully created', 'data' => $destination]);
     }
 
     public function getAll(Request $request) {
